@@ -47,6 +47,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.0.5"
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/AL2.0")
+        resources.excludes.add("META-INF/LGPL2.1")
+        resources.excludes.add("META-INF/atomicfu.kotlin_module")
+    }
 }
 
 hilt {

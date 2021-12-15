@@ -10,7 +10,6 @@ sealed class Resource<out T> {
     }
 }
 
-
 inline fun <T> Resource<T>.onSuccess(body: (T?) -> Unit): Resource<T> {
     if (this is Resource.Success) body(data)
     return this
