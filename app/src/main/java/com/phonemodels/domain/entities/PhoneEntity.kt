@@ -1,14 +1,13 @@
 package com.phonemodels.domain.entities
 
-
 data class PhoneEntity(
-    var id: Int?,
-    var name: String?,
-    var os: String?,
-    var price: Long?,
-    var currency: String?,
-    var review: Int?,
-    var status: String?,
-    var size: String?,
-    var image: String?
+    var id: Int? = null,
+    var name: String? = null,
+    var os: String? = null,
+    var price: Long? = null,
+    var currency: String? = null,
+    var review: Int? = null,
+    var status: String? = null,
+    var size: String? = null,
+    var image: String? = null
 )

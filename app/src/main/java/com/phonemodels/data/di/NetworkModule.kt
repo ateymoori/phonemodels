@@ -62,17 +62,10 @@ class NetworkModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideCocktailsApiService(
-        retrofit: Retrofit
-    ): RestAPI {
-        return retrofit.create(RestAPI::class.java)
-    }
 
     @Provides
     @Singleton
-    fun provideFoodsApiService(
+    fun provideApiService(
         retrofit: Retrofit
     ): RestAPI {
         return retrofit.create(RestAPI::class.java)

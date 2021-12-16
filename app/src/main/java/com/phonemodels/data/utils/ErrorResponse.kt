@@ -1,4 +1,4 @@
-package com.cocktails.data.utils
+package com.phonemodels.data.utils
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
