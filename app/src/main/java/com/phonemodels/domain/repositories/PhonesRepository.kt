@@ -5,5 +5,5 @@ import com.phonemodels.domain.entities.PhoneEntity
 
 interface PhonesRepository {
     suspend fun getPhones(): Resource<List<PhoneEntity>>
-    suspend fun findPhonesByOsOrName(word:String?): Resource<List<PhoneEntity>>
+    suspend fun findPhonesByNameOrOS(word:String?): Resource<List<PhoneEntity>>
 }

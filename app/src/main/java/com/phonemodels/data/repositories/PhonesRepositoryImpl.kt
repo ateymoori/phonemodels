@@ -23,8 +23,8 @@ class PhonesRepositoryImpl  @Inject constructor(
         return Resource.Failure.NetworkException(null)
     }
 
-    override suspend fun findPhonesByOsOrName(word: String?): Resource<List<PhoneEntity>> {
-        getResult { restApi.findPhonesByOsOrName(word) }.onSuccess {
+    override suspend fun findPhonesByNameOrOS(word: String?): Resource<List<PhoneEntity>> {
+        getResult { restApi.findPhonesByNameOrOS(word) }.onSuccess {
             return Resource.Success(it?.mapToPhoneEntities())
         }.onError {
             return Resource.Failure.Generic(it)

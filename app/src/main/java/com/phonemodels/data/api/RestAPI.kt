@@ -11,7 +11,7 @@ interface RestAPI {
     suspend fun getPhones(): Response<PhonesResponse>
 
     @GET("phones/find")
-    suspend fun findPhonesByOsOrName(@Query("word") word: String?): Response<PhonesResponse>
+    suspend fun findPhonesByNameOrOS(@Query("word") word: String?): Response<PhonesResponse>
 
 }
 
