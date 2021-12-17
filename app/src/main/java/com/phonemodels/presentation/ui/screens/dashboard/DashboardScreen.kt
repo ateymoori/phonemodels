@@ -1,5 +1,7 @@
 package com.phonemodels.presentation.ui.screens.dashboard
 
+import DrawerListItemView
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,9 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +20,9 @@ import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import com.phonemodels.R
 import com.phonemodels.domain.entities.PhoneEntity
+import com.phonemodels.presentation.ui.components.LoadingBar
 import com.phonemodels.presentation.ui.components.PhonesListItemView
+import com.phonemodels.presentation.ui.components.SearchBar
 import com.phonemodels.presentation.ui.screens.entry.EntryPointActivity
 import com.phonemodels.presentation.ui.theme.PhoneModelsAppTheme
 import com.phonemodels.presentation.utils.LAUNCH_LISTEN_FOR_EFFECTS
@@ -27,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+
 
 @Composable
 fun DashboardScreen(navController: NavHostController) {
@@ -44,6 +48,7 @@ fun DashboardScreen(navController: NavHostController) {
         })
 }
 
+
 @Composable
 fun DashboardView(
     state: DashboardContract.State,
@@ -51,8 +56,11 @@ fun DashboardView(
     onEventSent: (event: DashboardContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: DashboardContract.Effect.Navigation) -> Unit
 ) {
+
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    var inSearchMode by remember { mutableStateOf(false) }
+
     // Listen for side effects from the VM
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow?.onEach { effect ->
@@ -65,33 +73,70 @@ fun DashboardView(
                 is DashboardContract.Effect.Navigation.ToPhoneDetails -> onNavigationRequested(
                     effect
                 )
+                DashboardContract.Effect.GotError -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = state.error ?: "",
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
         }?.collect()
     }
 
     Scaffold(
         scaffoldState = scaffoldState,
-        drawerContent = { Text("Drawer content") },
+        drawerContent = {
+            DrawerList(listOf("sd", "sds", "sds", "sdsd") )
+        },
         topBar = {
             TopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            scope.launch { scaffoldState.drawerState.open() }
-                        }
-                    ) {
-                        Icon(Icons.Filled.Menu, "")
+                actions = {
+                    IconButton(onClick = {
+                        inSearchMode = !inSearchMode
+                    }) {
+                        Icon(Icons.Filled.Search, contentDescription = "Search")
                     }
                 },
-                title = { Text(stringResource(R.string.app_name)) },
-                backgroundColor = MaterialTheme.colors.background
+                navigationIcon = {
+                    if (inSearchMode) {
+                        IconButton(
+                            onClick = {
+                                inSearchMode = false
+                            }
+                        ) {
+                            Icon(Icons.Filled.ArrowBack, "")
+                        }
+                    } else {
+                        IconButton(
+                            onClick = {
+                                scope.launch { scaffoldState.drawerState.open() }
+                            }
+                        ) {
+                            Icon(Icons.Filled.Menu, "")
+                        }
+                    }
+                },
+
+                title = {
+                    if (!inSearchMode) {
+                        Text(stringResource(R.string.app_name))
+                    } else {
+                        SearchBar(placeholderText = "Search a Phone", searchText =
+                        state.searchValue ?: "",
+                            onSearchTextChanged = {
+                                onEventSent(DashboardContract.Event.SearchValueChanged(it))
+                            })
+                    }
+                },
+                backgroundColor = MaterialTheme.colors.background,
             )
+
         },
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
     ) {
-        Box {
+        Column(modifier = Modifier.fillMaxSize()) {
             PhonesList(phones = state.phones) { itemId ->
-                onEventSent(DashboardContract.Event.PhoneSelection(itemId))
+                onEventSent(DashboardContract.Event.PhoneSelected(itemId))
             }
             if (state.isLoading)
                 LoadingBar()
@@ -109,7 +154,19 @@ fun PhonesList(
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         items(phones ?: listOf()) { item ->
-            PhoneItemRow(item = item , onItemClicked = onItemClicked)
+            PhoneItemRow(item = item, onItemClicked = onItemClicked)
+        }
+    }
+}
+
+@Composable
+fun DrawerList(
+    items: List<String>?,
+    onItemClicked: (id: Int?) -> Unit = { }
+) {
+    LazyColumn {
+        items(items ?: listOf()) { item ->
+            DrawerListItemView(item = item, onItemClicked = onItemClicked)
         }
     }
 }
@@ -134,15 +191,6 @@ fun PhoneItemRow(
     }
 }
 
-@Composable
-fun LoadingBar() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        CircularProgressIndicator()
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -151,3 +199,4 @@ fun DefaultPreview() {
         DashboardView(DashboardContract.State(), null, { }, { })
     }
 }
+
