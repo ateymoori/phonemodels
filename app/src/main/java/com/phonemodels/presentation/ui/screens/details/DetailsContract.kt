@@ -7,7 +7,7 @@ import com.phonemodels.presentation.utils.ViewState
 
 class DetailsContract {
     sealed class Event : ViewEvent {
-        data class AddRemoveToFavorites(val phoneID: Int?) : Event()
+        data class SwitchFavorite(val phoneID: Int?) : Event()
     }
 
     data class State(

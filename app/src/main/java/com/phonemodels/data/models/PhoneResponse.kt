@@ -14,7 +14,8 @@ data class PhoneResponse(
     @SerializedName("review") val review: Int,
     @SerializedName("status") val status: String,
     @SerializedName("size") val size: String,
-    @SerializedName("image") val image: String
+    @SerializedName("image") val image: String,
+    @SerializedName("isFavorite") val isFavorite: Boolean
 )
 
 fun PhonesResponse.mapToPhoneEntities(): List<PhoneEntity> {
@@ -33,7 +34,8 @@ fun PhoneResponse.mapToPhoneEntity(): PhoneEntity {
         review = review,
         status = status,
         size = size,
-        image = image
+        image = image,
+        isFavorite = isFavorite
     )
 }
 

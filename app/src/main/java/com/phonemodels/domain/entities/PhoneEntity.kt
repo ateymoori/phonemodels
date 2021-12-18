@@ -9,7 +9,8 @@ data class PhoneEntity(
     var review: Int? = null,
     var status: String? = null,
     var size: String? = null,
-    var image: String? = null
+    var image: String? = null,
+    var isFavorite: Boolean? = null
 )
 
 //for test and compose preview purposes
@@ -22,5 +23,6 @@ val SamplePhoneEntity = PhoneEntity(
     review = 4,
     status = "Available",
     size = "1024 * 768",
+    isFavorite = true,
     image = "https://amirteymoori.ir/storage/phones/December2021/jRfEuW5mSkOKzpiytdQN.jpg"
 )

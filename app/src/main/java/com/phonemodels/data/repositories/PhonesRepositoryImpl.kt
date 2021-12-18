@@ -41,4 +41,13 @@ class PhonesRepositoryImpl  @Inject constructor(
         }
         return Resource.Failure.NetworkException(null)
     }
+
+    override suspend fun switchPhoneFavorites(id: Int?): Resource<PhoneEntity> {
+        getResult { restApi.switchPhoneFavorites(id) }.onSuccess {
+            return Resource.Success(it?.mapToPhoneEntity())
+        }.onError {
+            return Resource.Failure.Generic(it)
+        }
+        return Resource.Failure.NetworkException(null)
+    }
 }

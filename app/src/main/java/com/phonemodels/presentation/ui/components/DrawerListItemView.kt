@@ -34,7 +34,7 @@ fun DrawerListItemView(item: DrawerItems, onItemClicked: (id: Int?) -> Unit = { 
         ) {
             Icon(
 
-                item.icon, contentDescription = "",
+                item.icon, contentDescription = null,
                 modifier = Modifier.padding(start = 16.dp)
             )
             Text(

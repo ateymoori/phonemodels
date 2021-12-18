@@ -6,11 +6,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.phonemodels.presentation.ui.components.LoadingBarView
 import com.phonemodels.presentation.ui.components.PhoneDetailsView
+import com.phonemodels.presentation.ui.components.defaultRate
+import com.phonemodels.presentation.ui.theme.Gold
 import com.phonemodels.presentation.ui.theme.PhoneModelsAppTheme
 import com.phonemodels.presentation.utils.LAUNCH_LISTEN_FOR_EFFECTS
 import kotlinx.coroutines.flow.Flow
@@ -58,8 +61,13 @@ fun DetailsView(
             TopAppBar(
                 actions = {
                     IconButton(onClick = {
+                        onEventSent(DetailsContract.Event.SwitchFavorite(state.phone?.id))
                     }) {
-                        Icon(Icons.Filled.Star, contentDescription = "Search")
+                        Icon(
+                            Icons.Filled.Star,
+                            contentDescription = null,
+                            tint = (if (state.phone?.isFavorite == true) Gold else Color.Gray),
+                        )
                     }
                 },
                 navigationIcon = {

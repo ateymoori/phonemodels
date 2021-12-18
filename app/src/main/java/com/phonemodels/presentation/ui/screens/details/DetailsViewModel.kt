@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.phonemodels.data.utils.onError
 import com.phonemodels.data.utils.onSuccess
 import com.phonemodels.domain.usecases.GetPhoneDetails
+import com.phonemodels.domain.usecases.SwitchFavorite
 import com.phonemodels.presentation.ui.screens.entry.EntryPointActivity
 import com.phonemodels.presentation.utils.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val stateHandle: SavedStateHandle,
-    private val getPhoneDetails: GetPhoneDetails
+    private val getPhoneDetails: GetPhoneDetails,
+    private val switchFavorite: SwitchFavorite
 ) :
     BaseViewModel<DetailsContract.Event, DetailsContract.State, DetailsContract.Effect>() {
 
@@ -39,8 +41,23 @@ class DetailsViewModel @Inject constructor(
 
     override fun handleEvents(event: DetailsContract.Event) {
         when (event) {
-            is DetailsContract.Event.AddRemoveToFavorites -> {
+            is DetailsContract.Event.SwitchFavorite -> {
+                viewModelScope.launch {
+                    switchPhoneFavorite(event.phoneID)
+                }
+            }
+        }
+    }
 
+    private suspend fun switchPhoneFavorite(phoneID: Int?) {
+        switchFavorite.invoke(phoneID).onSuccess {
+            setState {
+                copy(phone = it, isLoading = false, error = null)
+            }
+            setEffect { DetailsContract.Effect.DataWasLoaded }
+        }.onError {
+            setState {
+                copy(phone = phone, isLoading = false, error = it)
             }
         }
     }
