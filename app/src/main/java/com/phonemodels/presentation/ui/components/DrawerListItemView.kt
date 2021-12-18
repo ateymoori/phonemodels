@@ -3,6 +3,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -14,15 +15,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.phonemodels.presentation.ui.screens.dashboard.DrawerItems
 import com.phonemodels.presentation.ui.theme.PhoneModelsAppTheme
 
 @Composable
-fun DrawerListItemView(item: String,onItemClicked: (id: Int?) -> Unit = { }) {
+fun DrawerListItemView(item: DrawerItems, onItemClicked: (id: Int?) -> Unit = { }) {
     PhoneModelsAppTheme {
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(60.dp)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = rememberRipple(bounded = true),
@@ -31,10 +33,13 @@ fun DrawerListItemView(item: String,onItemClicked: (id: Int?) -> Unit = { }) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                Icons.Filled.Search, contentDescription = ""
+
+                item.icon, contentDescription = "",
+                modifier = Modifier.padding(start = 16.dp)
             )
             Text(
-                "Settings",
+                modifier = Modifier.padding(start = 16.dp),
+                text = item.title,
                 style = MaterialTheme.typography.h6
             )
         }

@@ -18,18 +18,22 @@ data class PhoneResponse(
 )
 
 fun PhonesResponse.mapToPhoneEntities(): List<PhoneEntity> {
-    return this.devices.map { device ->
-        PhoneEntity(
-            id = device.id,
-            name = device.name,
-            os = device.os,
-            price = device.price,
-            currency = device.currency,
-            review = device.review,
-            status = device.status,
-            size = device.size,
-            image = device.image
-        )
+    return this.devices.map {
+        it.mapToPhoneEntity()
     }
+}
+
+fun PhoneResponse.mapToPhoneEntity(): PhoneEntity {
+    return PhoneEntity(
+        id = id,
+        name = name,
+        os = os,
+        price = price,
+        currency = currency,
+        review = review,
+        status = status,
+        size = size,
+        image = image
+    )
 }
 

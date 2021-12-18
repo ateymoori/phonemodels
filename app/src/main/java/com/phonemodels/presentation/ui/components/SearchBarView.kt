@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
-fun SearchBar(
+fun SearchBarView(
     searchText: String,
     placeholderText: String = "",
     onSearchTextChanged: (String) -> Unit = {}

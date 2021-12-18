@@ -5,7 +5,6 @@ import com.phonemodels.presentation.utils.ViewEvent
 import com.phonemodels.presentation.utils.ViewSideEffect
 import com.phonemodels.presentation.utils.ViewState
 
-
 class DashboardContract {
     sealed class Event : ViewEvent {
         data class PhoneSelected(val phoneID: Int?) : Event()

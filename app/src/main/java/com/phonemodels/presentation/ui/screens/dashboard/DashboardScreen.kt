@@ -1,7 +1,6 @@
 package com.phonemodels.presentation.ui.screens.dashboard
 
 import DrawerListItemView
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,9 +20,9 @@ import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import com.phonemodels.R
 import com.phonemodels.domain.entities.PhoneEntity
-import com.phonemodels.presentation.ui.components.LoadingBar
+import com.phonemodels.presentation.ui.components.LoadingBarView
 import com.phonemodels.presentation.ui.components.PhonesListItemView
-import com.phonemodels.presentation.ui.components.SearchBar
+import com.phonemodels.presentation.ui.components.SearchBarView
 import com.phonemodels.presentation.ui.screens.entry.EntryPointActivity
 import com.phonemodels.presentation.ui.theme.PhoneModelsAppTheme
 import com.phonemodels.presentation.utils.LAUNCH_LISTEN_FOR_EFFECTS
@@ -47,7 +47,6 @@ fun DashboardScreen(navController: NavHostController) {
             }
         })
 }
-
 
 @Composable
 fun DashboardView(
@@ -86,7 +85,13 @@ fun DashboardView(
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
-            DrawerList(listOf("sd", "sds", "sds", "sdsd") )
+            DrawerList(
+                listOf(
+                    DrawerItems("Home", Icons.Filled.Home),
+                    DrawerItems("Settings", Icons.Filled.Settings),
+                    DrawerItems("Help", Icons.Filled.Email)
+                )
+            )
         },
         topBar = {
             TopAppBar(
@@ -121,7 +126,7 @@ fun DashboardView(
                     if (!inSearchMode) {
                         Text(stringResource(R.string.app_name))
                     } else {
-                        SearchBar(placeholderText = "Search a Phone", searchText =
+                        SearchBarView(placeholderText = "Search a Phone", searchText =
                         state.searchValue ?: "",
                             onSearchTextChanged = {
                                 onEventSent(DashboardContract.Event.SearchValueChanged(it))
@@ -139,7 +144,7 @@ fun DashboardView(
                 onEventSent(DashboardContract.Event.PhoneSelected(itemId))
             }
             if (state.isLoading)
-                LoadingBar()
+                LoadingBarView()
         }
     }
 }
@@ -161,7 +166,7 @@ fun PhonesList(
 
 @Composable
 fun DrawerList(
-    items: List<String>?,
+    items: List<DrawerItems>,
     onItemClicked: (id: Int?) -> Unit = { }
 ) {
     LazyColumn {
@@ -200,3 +205,8 @@ fun DefaultPreview() {
     }
 }
 
+
+data class DrawerItems(
+    val title: String,
+    val icon: ImageVector
+)

@@ -11,3 +11,16 @@ data class PhoneEntity(
     var size: String? = null,
     var image: String? = null
 )
+
+//for test and compose preview purposes
+val SamplePhoneEntity = PhoneEntity(
+    id = 123,
+    name = "Samsung S21 Ultra",
+    os = "Android",
+    price = 1200,
+    currency = "USD",
+    review = 4,
+    status = "Available",
+    size = "1024 * 768",
+    image = "https://amirteymoori.ir/storage/phones/December2021/jRfEuW5mSkOKzpiytdQN.jpg"
+)

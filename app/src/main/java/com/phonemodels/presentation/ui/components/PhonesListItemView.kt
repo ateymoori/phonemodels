@@ -39,7 +39,7 @@ fun PhonesListItemView(phoneEntity: PhoneEntity?) {
                     .height(90.dp)
                     .clip(CircleShape),
 
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Crop
             )
             Column(
                 Modifier
