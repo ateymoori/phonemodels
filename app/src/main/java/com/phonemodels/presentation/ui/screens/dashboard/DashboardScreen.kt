@@ -1,6 +1,7 @@
 package com.phonemodels.presentation.ui.screens.dashboard
 
 import DrawerListItemView
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun DashboardScreen(navController: NavHostController) {
     val viewModel: DashboardViewModel = hiltViewModel()
@@ -41,6 +41,7 @@ fun DashboardScreen(navController: NavHostController) {
         state = state,
         effectFlow = viewModel.effect,
         onEventSent = { event -> viewModel.setEvent(event) },
+        navController = navController,
         onNavigationRequested = { navigationEffect ->
             if (navigationEffect is DashboardContract.Effect.Navigation.ToPhoneDetails) {
                 navController.navigate("${EntryPointActivity.NavigationKeys.Route.PHONE_DETAILS}/${navigationEffect.phoneID}")
@@ -53,30 +54,24 @@ fun DashboardView(
     state: DashboardContract.State,
     effectFlow: Flow<DashboardContract.Effect>?,
     onEventSent: (event: DashboardContract.Event) -> Unit,
+    navController: NavHostController?,
     onNavigationRequested: (navigationEffect: DashboardContract.Effect.Navigation) -> Unit
 ) {
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     var inSearchMode by remember { mutableStateOf(false) }
-
     // Listen for side effects from the VM
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow?.onEach { effect ->
             when (effect) {
-                is DashboardContract.Effect.DataWasLoaded ->
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Phones are loaded.",
-                        duration = SnackbarDuration.Short
-                    )
+                is DashboardContract.Effect.DataWasLoaded -> {}
+
                 is DashboardContract.Effect.Navigation.ToPhoneDetails -> onNavigationRequested(
                     effect
                 )
                 DashboardContract.Effect.GotError -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = state.error ?: "",
-                        duration = SnackbarDuration.Short
-                    )
+
                 }
             }
         }?.collect()
@@ -99,7 +94,7 @@ fun DashboardView(
                     IconButton(onClick = {
                         inSearchMode = !inSearchMode
                     }) {
-                        Icon(Icons.Filled.Search, contentDescription = "Search")
+                        Icon(Icons.Filled.Search, contentDescription = null)
                     }
                 },
                 navigationIcon = {
@@ -145,6 +140,16 @@ fun DashboardView(
             }
             if (state.isLoading)
                 LoadingBarView()
+        }
+    }
+
+    //handle onBackPressed
+    BackHandler {
+        if (inSearchMode) {
+            inSearchMode = false
+            onEventSent(DashboardContract.Event.SearchValueChanged(""))
+        } else {
+            navController?.popBackStack()
         }
     }
 }
@@ -196,15 +201,13 @@ fun PhoneItemRow(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    PhoneModelsAppTheme() {
-        DashboardView(DashboardContract.State(), null, { }, { })
+    PhoneModelsAppTheme{
+        DashboardView(DashboardContract.State(), null, { }, null, {})
     }
 }
-
 
 data class DrawerItems(
     val title: String,

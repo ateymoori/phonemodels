@@ -7,6 +7,7 @@ import com.phonemodels.data.utils.onSuccess
 import com.phonemodels.domain.usecases.FindPhones
 import com.phonemodels.domain.usecases.GetPhones
 import com.phonemodels.presentation.utils.BaseViewModel
+import com.phonemodels.presentation.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

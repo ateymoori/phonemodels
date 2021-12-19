@@ -47,7 +47,7 @@ fun DetailsView(
                 is DetailsContract.Effect.DataWasLoaded -> {}
                 DetailsContract.Effect.GotError -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = state.error ?: "",
+                        message = state.error ?: "error",
                         duration = SnackbarDuration.Short
                     )
                 }
