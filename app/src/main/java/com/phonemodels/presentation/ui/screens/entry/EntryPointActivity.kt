@@ -27,7 +27,7 @@ class EntryPointActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun PhonesApp() {
+    fun PhonesApp() {
         val navController = rememberNavController()
         NavHost(navController, startDestination = NavigationKeys.Route.PHONES_LIST) {
             composable(route = NavigationKeys.Route.PHONES_LIST) {

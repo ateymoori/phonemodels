@@ -11,7 +11,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
     @Provides
     fun providePhonesRepository(restAPI: RestAPI): PhonesRepository {
         return PhonesRepositoryImpl(restAPI)

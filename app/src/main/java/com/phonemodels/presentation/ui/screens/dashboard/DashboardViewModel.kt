@@ -1,13 +1,11 @@
 package com.phonemodels.presentation.ui.screens.dashboard
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.phonemodels.data.utils.onError
 import com.phonemodels.data.utils.onSuccess
 import com.phonemodels.domain.usecases.FindPhones
 import com.phonemodels.domain.usecases.GetPhones
 import com.phonemodels.presentation.utils.BaseViewModel
-import com.phonemodels.presentation.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +47,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAllPhones() {
+    suspend fun getAllPhones() {
         getPhones.invoke().onSuccess {
             setState {
                 copy(phones = it ?: listOf(), isLoading = false, error = null)
@@ -62,7 +60,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private suspend fun findPhones(word: String?) {
+    suspend fun findPhones(word: String?) {
         findPhones.invoke(word).onSuccess {
             setState {
                 copy(phones = it ?: listOf(), isLoading = false, error = null)

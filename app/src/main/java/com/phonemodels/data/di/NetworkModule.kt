@@ -61,7 +61,6 @@ class NetworkModule {
             .build()
     }
 
-
     @Provides
     @Singleton
     fun provideApiService(

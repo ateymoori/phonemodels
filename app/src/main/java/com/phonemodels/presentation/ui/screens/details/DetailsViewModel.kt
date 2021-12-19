@@ -22,17 +22,9 @@ class DetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val phoneID = stateHandle.get<Int>(EntryPointActivity.NavigationKeys.Arg.PHONE_ID)
-            getPhoneDetails.invoke(phoneID).onSuccess {
-                setState {
-                    copy(phone = it, isLoading = false, error = null)
-                }
-                setEffect { DetailsContract.Effect.DataWasLoaded }
-            }.onError {
-                setState {
-                    copy(phone = phone, isLoading = false, error = it)
-                }
-            }
+            getDetails(
+                stateHandle.get<Int>(EntryPointActivity.NavigationKeys.Arg.PHONE_ID)
+            )
         }
     }
 
@@ -45,6 +37,19 @@ class DetailsViewModel @Inject constructor(
                 viewModelScope.launch {
                     switchPhoneFavorite(event.phoneID)
                 }
+            }
+        }
+    }
+
+    suspend fun getDetails(phoneID: Int?) {
+        getPhoneDetails.invoke(phoneID).onSuccess {
+            setState {
+                copy(phone = it, isLoading = false, error = null)
+            }
+            setEffect { DetailsContract.Effect.DataWasLoaded }
+        }.onError {
+            setState {
+                copy(phone = phone, isLoading = false, error = it)
             }
         }
     }

@@ -3,7 +3,7 @@ package com.phonemodels.domain.usecases
 import com.phonemodels.data.utils.Resource
 import com.phonemodels.data.utils.onNetworkError
 import com.phonemodels.data.utils.onSuccess
-import com.phonemodels.domain.entities.PhoneEntity
+import com.phonemodels.domain.entities.SamplePhoneEntity
 import com.phonemodels.domain.repositories.PhonesRepository
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
@@ -20,17 +20,6 @@ class GetPhonesTest {
     @Mock
     private lateinit var phonesRepository: PhonesRepository
 
-    private val samplePhone = PhoneEntity(
-        id = 1,
-        name = "iphone",
-        os = "ios",
-        price = 1000,
-        currency = "USD",
-        review = 3,
-        status = "Available",
-        size = "1*2",
-        image = ""
-    )
 
     @Before
     fun setup() {
@@ -55,7 +44,7 @@ class GetPhonesTest {
     fun `Test if the mocked data is equaled to the result of repository and use-case in successful scenario`() {
         runBlockingTest {
             val results = Resource.Success(
-                listOf(samplePhone)
+                listOf(SamplePhoneEntity)
             )
 
             Mockito.`when`(phonesRepository.getPhones()).thenReturn(results)
@@ -64,7 +53,7 @@ class GetPhonesTest {
 
             useCase.invoke()
                 .onSuccess {
-                    assertEquals(it?.get(0)?.name, samplePhone.name)
+                    assertEquals(it?.get(0)?.name, SamplePhoneEntity.name)
                 }
         }
     }

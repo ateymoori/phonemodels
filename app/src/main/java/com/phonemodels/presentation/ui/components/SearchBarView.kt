@@ -10,6 +10,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
@@ -28,7 +29,7 @@ fun SearchBarView(
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .focusRequester(focusRequester),
+                    .focusRequester(focusRequester).testTag("searchField"),
                 value = searchText,
                 onValueChange = onSearchTextChanged,
                 placeholder = {

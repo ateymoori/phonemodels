@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -94,7 +95,7 @@ fun DashboardView(
                     IconButton(onClick = {
                         inSearchMode = !inSearchMode
                     }) {
-                        Icon(Icons.Filled.Search, contentDescription = null)
+                        Icon(Icons.Filled.Search, contentDescription = null, modifier = Modifier.testTag("searchButton"))
                     }
                 },
                 navigationIcon = {
@@ -108,6 +109,7 @@ fun DashboardView(
                         }
                     } else {
                         IconButton(
+                            modifier = Modifier.testTag("drawerIcon"),
                             onClick = {
                                 scope.launch { scaffoldState.drawerState.open() }
                             }
@@ -119,7 +121,7 @@ fun DashboardView(
 
                 title = {
                     if (!inSearchMode) {
-                        Text(stringResource(R.string.app_name))
+                        Text(modifier = Modifier.testTag("pageTitle") , text = stringResource(R.string.app_name))
                     } else {
                         SearchBarView(placeholderText = "Search a Phone", searchText =
                         state.searchValue ?: "",
@@ -161,6 +163,7 @@ fun PhonesList(
     onItemClicked: (id: Int?) -> Unit = { }
 ) {
     LazyColumn(
+        modifier = Modifier.testTag("phonesList"),
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         items(phones ?: listOf()) { item ->
@@ -174,8 +177,8 @@ fun DrawerList(
     items: List<DrawerItems>,
     onItemClicked: (id: Int?) -> Unit = { }
 ) {
-    LazyColumn {
-        items(items ?: listOf()) { item ->
+    LazyColumn(Modifier.testTag("drawerList")) {
+        items(items) { item ->
             DrawerListItemView(item = item, onItemClicked = onItemClicked)
         }
     }
@@ -204,7 +207,7 @@ fun PhoneItemRow(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    PhoneModelsAppTheme{
+    PhoneModelsAppTheme {
         DashboardView(DashboardContract.State(), null, { }, null, {})
     }
 }
