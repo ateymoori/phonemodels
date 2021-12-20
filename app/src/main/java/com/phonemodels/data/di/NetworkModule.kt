@@ -1,7 +1,6 @@
 package com.phonemodels.data.di
 
 import com.phonemodels.data.api.RestAPI
-import com.phonemodels.data.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +20,7 @@ class NetworkModule {
 
     @Provides
     fun providesBaseUrl(): String {
-        return Constants.BASE_API_URL
+        return RestAPI.BASE_API_URL
     }
 
     @Provides
@@ -64,15 +63,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCocktailsApiService(
-        retrofit: Retrofit
-    ): RestAPI {
-        return retrofit.create(RestAPI::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideFoodsApiService(
+    fun provideApiService(
         retrofit: Retrofit
     ): RestAPI {
         return retrofit.create(RestAPI::class.java)

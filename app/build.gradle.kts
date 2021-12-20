@@ -5,7 +5,6 @@ plugins {
     kotlin("kapt")
 }
 
-
 android {
     compileSdk = 31
     buildToolsVersion = "30.0.3"
@@ -47,6 +46,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.0.5"
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/AL2.0")
+        resources.excludes.add("META-INF/LGPL2.1")
+        resources.excludes.add("META-INF/atomicfu.kotlin_module")
+    }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 hilt {
@@ -63,6 +70,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.0.5")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
     implementation("androidx.activity:activity-compose:1.4.0")
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.17.0")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
@@ -92,14 +100,11 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.0.5")
-
-
     implementation ("org.mockito:mockito-core:2.23.0")
     androidTestImplementation ("androidx.annotation:annotation:1.3.0")
-    testImplementation ("io.mockk:mockk:1.9.3.kotlin12")
-    androidTestImplementation ("io.mockk:mockk-android:1.9.3.kotlin12")
+    testImplementation ("io.mockk:mockk:1.12.1")
     testImplementation ("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation ("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.0.5")
+
 }

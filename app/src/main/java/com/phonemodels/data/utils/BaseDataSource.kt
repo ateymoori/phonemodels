@@ -1,6 +1,5 @@
 package com.phonemodels.data.utils
 
-import com.cocktails.data.utils.ErrorResponse
 import com.phonemodels.data.utils.GsonUtils.toObjectByGson
 import retrofit2.HttpException
 import retrofit2.Response
