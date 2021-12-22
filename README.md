@@ -140,5 +140,5 @@ teymoori.net@gmail.com
 
 My Resume :
 
-https://amirteymoori.ir/AmirHosseinTeymooriAndroidDeveloperCV.pdf" alt="Android Architecture " width=500 />  
+https://amirteymoori.ir/AmirHosseinTeymooriAndroidDeveloperCV.pdf
 
