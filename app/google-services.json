@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "510823543653",
+    "project_id": "phonemodels-358b7",
+    "storage_bucket": "phonemodels-358b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510823543653:android:d78923ec182e87d345278c",
+        "android_client_info": {
+          "package_name": "com.phonemodels"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510823543653-rfbpfmr7na84svuv2ar6o50f35b1vn2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.phonemodels",
+            "certificate_hash": "1891056ca923e250e61e4a33d73b8ea0bcdfad57"
+          }
+        },
+        {
+          "client_id": "510823543653-tnnfob3ld7ins6hddldjmnng5kktpk7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4LNidXLmHvySsy7aIvvPR3rtE3sPv4mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510823543653-tnnfob3ld7ins6hddldjmnng5kktpk7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

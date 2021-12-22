@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
     kotlin("android")
     kotlin("kapt")
@@ -13,8 +14,8 @@ android {
         applicationId = "com.phonemodels"
         minSdk = 24
         targetSdk = 31
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 101
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
